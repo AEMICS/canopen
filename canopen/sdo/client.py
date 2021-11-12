@@ -86,7 +86,7 @@ class SdoClient(SdoBase):
             except SdoCommunicationError as e:
                 retries_left -= 1
                 if not retries_left:
-                    self.abort(0x5040000) 
+                    self.abort(0x5040000)
                     raise
                 logger.warning(str(e))
 
@@ -193,7 +193,7 @@ class SdoClient(SdoBase):
             Force use of segmented download regardless of data size.
         :param bool request_crc_support:
             If crc calculation should be requested when using block transfer
-        
+
         :returns:
             A file like object.
         """
@@ -463,7 +463,7 @@ class BlockUploadStream(io.RawIOBase):
         :param int subindex:
             Object dictionary sub-index to read from.
         :param bool request_crc_support:
-            If crc calculation should be requested when using block transfer            
+            If crc calculation should be requested when using block transfer
         """
         self._done = False
         self.sdo_client = sdo_client
@@ -523,6 +523,7 @@ class BlockUploadStream(io.RawIOBase):
         if seqno == self._ackseq + 1:
             self._ackseq = seqno
         else:
+            logger.debug('Wrong seqno')
             # Wrong sequence number
             response = self._retransmit()
             res_command, = struct.unpack_from("B", response)
@@ -619,7 +620,7 @@ class BlockDownloadStream(io.RawIOBase):
         :param int size:
             Size of data in number of bytes if known in advance.
         :param bool request_crc_support:
-            If crc calculation should be requested when using block transfer            
+            If crc calculation should be requested when using block transfer
         """
         self.sdo_client = sdo_client
         self.size = size

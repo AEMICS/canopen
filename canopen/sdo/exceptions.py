@@ -54,6 +54,11 @@ class SdoAbortedError(SdoError):
             text = text + ", " + self.CODES[self.code]
         return text
 
+    @staticmethod
+    def from_string(text):
+        code = list(SdoAbortedError.CODES.keys())[list(SdoAbortedError.CODES.values()).index(text)]
+        return code
+
 
 class SdoCommunicationError(SdoError):
     """No or unexpected response from slave."""
